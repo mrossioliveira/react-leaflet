@@ -1,3 +1,11 @@
+# React Leaflet
+
+This project was created as a study guide for [React](https://reactjs.org/) and [Leaflet](https://leafletjs.com/).
+
+It uses React's [Context](https://reactjs.org/docs/context.html) api to manage state on a [Leaflet](https://leafletjs.com/) map. [react-leaflet](https://react-leaflet.js.org/) is used to handle the map.
+
+![](app/src/images/app.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
