@@ -1,12 +1,9 @@
 import React from 'react';
 import './App.scss';
+import AppMap from './components/Map/AppMap';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">React</header>
-    </div>
-  );
+  return <AppMap />;
 }
 
 export default App;
