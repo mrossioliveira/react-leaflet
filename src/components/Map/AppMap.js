@@ -1,43 +1,55 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker } from 'react-leaflet';
+import { MapContext } from '../../contexts/MapContext';
+import { Icon } from 'leaflet';
 
 const AppMap = () => {
-  const position = [-22.430110434852047, -46.95230484008789];
-  const zoom = 10;
-
-  const [markers, setMarkers] = useState([]);
-
-  const handleMapClick = (e) => {
-    console.log(e.latlng);
-  };
+  const { state, dispatch } = useContext(MapContext);
 
   const handleContextMenu = (e) => {
-    console.log(e.latlng);
-    console.log('context menu');
-    setMarkers([...markers, { position: [e.latlng.lat, e.latlng.lng] }]);
+    const position = { lat: e.latlng.lat, lng: e.latlng.lng };
+    dispatch({ type: 'addMarker', payload: position });
   };
+
+  const handleMarkerClick = (marker) => {
+    dispatch({ type: 'selectMarker', payload: marker });
+  };
+
+  const handleZoomChanges = (e) => {
+    dispatch({ type: 'updateZoom', payload: e.target._zoom });
+  };
+
+  var redIcon = new Icon({
+    iconUrl: process.env.PUBLIC_URL + 'marker.png',
+    iconSize: 24,
+  });
+
+  var blueIcon = new Icon({
+    iconUrl: process.env.PUBLIC_URL + 'marker_blue.png',
+    iconSize: 24,
+  });
 
   return (
     <div className="app-map">
       <Map
-        center={position}
-        zoom={zoom}
-        onclick={handleMapClick}
+        center={state.position}
+        zoom={state.zoom}
         oncontextmenu={handleContextMenu}
+        onzoomend={handleZoomChanges}
+        zoomControl={false}
       >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {markers.map((marker, i) => (
-          <Marker key={i} position={marker.position}>
-            <Popup>
-              <span>
-                {`lat: ${marker.position[0]}, lng: ${marker.position[1]}`}
-              </span>
-            </Popup>
-          </Marker>
+        {state.markers.map((marker, i) => (
+          <Marker
+            key={i}
+            position={marker.position}
+            onclick={() => handleMarkerClick(marker)}
+            icon={marker.id === state.selectedMarker ? redIcon : blueIcon}
+          ></Marker>
         ))}
       </Map>
     </div>

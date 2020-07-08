@@ -1,0 +1,88 @@
+.sidebar-container {
+  height: 100vh;
+  position: fixed;
+  z-index: 2;
+  padding: 24px;
+}
+
+.sidebar {
+  max-height: calc(100vh - 274px);
+  border-radius: 4px;
+  overflow-y: auto;
+}
+
+.sidebar-open {
+  background: rgba($color: #ffffff, $alpha: 0.9);
+  width: 300px;
+  position: fixed;
+  right: 0;
+  margin-right: 24px;
+  transition: all 300ms ease-in-out;
+}
+
+.sidebar-closed {
+  background: rgba($color: #ffffff, $alpha: 0.6);
+  width: 300px;
+  position: fixed;
+  right: -284px;
+  margin-right: 24px;
+  transition: all 300ms ease-in-out;
+}
+
+.sidebar-closed:hover {
+  background: rgba($color: #ffffff, $alpha: 0.8);
+  cursor: pointer;
+  right: -276px;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-flow: column;
+}
+
+.sidebar-content > ul > li {
+  list-style: none;
+  text-align: left;
+}
+
+.sidebar-content > ul > li:hover {
+  cursor: pointer;
+}
+
+.selected {
+  background: rgba($color: #bcdab1, $alpha: 0.6) !important;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  font-size: 12pt;
+  font-weight: 500;
+  background: rgba($color: #bcdab1, $alpha: 0.8);
+}
+
+.marker-item {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  border-bottom: 1px solid rgba($color: #dae0c8, $alpha: 0.6);
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 9pt;
+}
+
+.marker-item:nth-child(even) {
+  background: rgba($color: #f0f3dd, $alpha: 0.3);
+}
+
+.marker-item:nth-child(odd) {
+  background: rgba($color: #d1e0ca, $alpha: 0.3);
+}
+
+.marker-item:hover {
+  cursor: pointer;
+  background: rgba($color: #bcdab1, $alpha: 0.4);
+}
