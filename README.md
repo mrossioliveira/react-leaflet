@@ -4,7 +4,13 @@ This project was created as a study guide and future reference for [react-leafle
 
 It uses React's [Context](https://reactjs.org/docs/context.html) api to manage state on a [Leaflet](https://leafletjs.com/) map.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses an in-memory database to store the points.
+
+## Nest API
+
+I've created a [Nest API](https://github.com/mrossioliveira/nestjs-leaflet) that uses a MongoDB database to store and retrieve points.
+
+Switch to the [_api_](https://github.com/mrossioliveira/react-leaflet/tree/api) branch to use it.
 
 ## Available Scripts
 
