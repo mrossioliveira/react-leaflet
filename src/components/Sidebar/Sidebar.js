@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './Sidebar.scss';
 import { MapContext } from '../../contexts/MapContext';
+import MarkerService from '../../services/MarkerService';
 
 const MarkerItem = ({ marker, index }) => {
   const { state, dispatch } = useContext(MapContext);
@@ -9,24 +10,25 @@ const MarkerItem = ({ marker, index }) => {
     dispatch({ type: 'selectMarker', payload: marker });
   };
 
-  const handleMarkerDeletion = (id) => {
-    dispatch({ type: 'removeMarker', payload: id });
+  const handleMarkerDeletion = async (id) => {
+    const removedMarker = await MarkerService.delete(id);
+    dispatch({ type: 'removeMarker', payload: removedMarker._id });
   };
 
   return (
     <div
       onClick={() => handleMarkerSelection(marker)}
       className={`marker-item ${
-        state.selectedMarker === marker.id ? 'selected' : null
+        state.selectedMarker === marker._id ? 'selected' : null
       }`}
     >
       <div>
         <strong>{`#${index + 1}. `}</strong>
         <small>lat: </small>
-        {marker.position.lat.toFixed(4)}, <small>lng: </small>
-        {marker.position.lng.toFixed(4)}
+        {marker.geometry.coordinates[0].toFixed(4)}, <small>lng: </small>
+        {marker.geometry.coordinates[1].toFixed(4)}
       </div>
-      <span onClick={() => handleMarkerDeletion(marker.id)}>
+      <span onClick={() => handleMarkerDeletion(marker._id)}>
         <i className="far fa-trash-alt"></i>
       </span>
     </div>
@@ -62,7 +64,7 @@ const Sidebar = () => {
           </div>
           {state.markers.length > 0 ? (
             state.markers.map((m, i) => (
-              <MarkerItem key={m.id} marker={m} index={i} />
+              <MarkerItem key={m._id} marker={m} index={i} />
             ))
           ) : (
             <p style={{ textAlign: 'center' }}>

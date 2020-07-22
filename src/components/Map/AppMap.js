@@ -1,15 +1,25 @@
-import React, { useContext } from 'react';
-
+import React, { useContext, useEffect } from 'react';
+import { Icon } from 'leaflet';
 import { Map, TileLayer, Marker } from 'react-leaflet';
 import { MapContext } from '../../contexts/MapContext';
-import { Icon } from 'leaflet';
+import MarkerService from '../../services/MarkerService';
 
 const AppMap = () => {
   const { state, dispatch } = useContext(MapContext);
 
-  const handleContextMenu = (e) => {
-    const position = { lat: e.latlng.lat, lng: e.latlng.lng };
-    dispatch({ type: 'addMarker', payload: position });
+  useEffect(() => {
+    async function load() {
+      const markers = await MarkerService.find();
+      dispatch({ type: 'loadMarkers', payload: markers });
+    }
+
+    load();
+  }, [dispatch]);
+
+  const handleContextMenu = async (e) => {
+    const coordinates = [e.latlng.lat, e.latlng.lng];
+    const newMarker = await MarkerService.create(coordinates);
+    dispatch({ type: 'addMarker', payload: newMarker });
   };
 
   const handleMarkerClick = (marker) => {
@@ -20,12 +30,12 @@ const AppMap = () => {
     dispatch({ type: 'updateZoom', payload: e.target._zoom });
   };
 
-  var redIcon = new Icon({
+  const redIcon = new Icon({
     iconUrl: process.env.PUBLIC_URL + 'marker.png',
     iconSize: 24,
   });
 
-  var blueIcon = new Icon({
+  const blueIcon = new Icon({
     iconUrl: process.env.PUBLIC_URL + 'marker_blue.png',
     iconSize: 24,
   });
@@ -45,10 +55,10 @@ const AppMap = () => {
         />
         {state.markers.map((marker, i) => (
           <Marker
-            key={i}
-            position={marker.position}
+            key={marker._id}
+            position={marker.geometry.coordinates}
             onclick={() => handleMarkerClick(marker)}
-            icon={marker.id === state.selectedMarker ? redIcon : blueIcon}
+            icon={marker._id === state.selectedMarker ? redIcon : blueIcon}
           ></Marker>
         ))}
       </Map>

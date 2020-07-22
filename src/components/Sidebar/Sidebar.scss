@@ -1,3 +1,5 @@
+@import '../../include-media';
+
 .sidebar-container {
   height: 100vh;
   position: fixed;
@@ -9,15 +11,26 @@
   max-height: calc(100vh - 274px);
   border-radius: 4px;
   overflow-y: auto;
+
+  @include media('<=phone') {
+    max-height: 40vh;
+  }
 }
 
 .sidebar-open {
-  background: rgba($color: #ffffff, $alpha: 0.9);
+  background-color: rgba($color: #ffffff, $alpha: 0.9);
   width: 300px;
   position: fixed;
   right: 0;
   margin-right: 24px;
   transition: all 300ms ease-in-out;
+
+  @include media('<=phone') {
+    width: calc(100vw - 8px);
+    right: 0;
+    margin: 4px;
+    bottom: 16px;
+  }
 }
 
 .sidebar-closed {
@@ -27,6 +40,13 @@
   right: -284px;
   margin-right: 24px;
   transition: all 300ms ease-in-out;
+
+  @include media('<=phone') {
+    width: 100%;
+    margin-right: 0;
+    margin: 4px;
+    bottom: 16px;
+  }
 }
 
 .sidebar-closed:hover {
